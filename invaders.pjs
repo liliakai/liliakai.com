@@ -1,0 +1,232 @@
+// 	Processing.js Example
+
+/* @pjs transparent=true; */
+
+void resize() {
+	loadPixels();
+	int newwidth  = window.innerWidth;
+	int newheight = max(550,window.innerHeight);
+	if (width != newwidth || height != newheight) {
+		size(newwidth, newheight);
+	  	contact.style.width = width - 20;	
+	}
+	updatePixels();
+}
+
+void revealCanvas() {
+	
+	stroke(0);
+	fill(255);
+	
+	int d = min(width,height)/5;
+    rect(0,0,d,d);
+    rect(width-d,0,d,d);
+    rect(0,height-d,d,d);
+    rect(width-d,height-d,d,d);
+}
+
+void debug(var x) {
+	fill(200);
+	text(str(x),5, height-5);
+}
+
+float clamp(float x, float a, float b) {
+	if (x < a)
+		x = a;
+	if (x > b)
+		x = b;
+	return x;
+}
+
+class Blip {
+	float x;
+	float y;
+	float v;
+	float d = 10;
+	boolean alive;
+	
+	Blip(float X, float Y, float V) {
+		x = X;
+		y = Y;
+		v = V;
+		alive = true;
+	}
+	
+	void draw() {
+		rect(x,y,d,d);
+	}
+}
+
+void fire() {
+	if (blips.size() > 3)
+		return;
+		
+	blips.add(new Blip(mouseX, contact.offsetTop, -10));
+	
+}
+void mousePressed() {
+	fire();
+}
+void keyPressed() {
+	if (key == ' ')
+		fire();
+}
+
+void lineIntersect(a1,a2,b1,b2){
+	if (a1 <= b1 && a2 >= b1)
+		return true;
+		
+	if (b1 <= a1 && b2 >= a1)
+		return true;
+		
+}
+void rectIntersect(x1,y1,w1,h1,x2,y2,w2,h2){
+	
+	boolean xIntersect = lineIntersect(x1,x1+w1,x2,x2+w2);
+	boolean yIntersect = lineIntersect(y1,y1+h1,y2,y2+h2);
+	
+	return xIntersect && yIntersect;
+}
+
+
+
+ArrayList blips = new ArrayList();
+PImage cp;
+int[] list;
+int lsize;
+int stop = 0;
+String myText = "lilia kai markham";
+float myWidth;
+
+float dir_speed = 1;
+float last_time = 0;
+float since = 0;
+
+void setup() {
+	resize();
+	background(255);
+	frameRate(30);
+
+	contact.style.position = "absolute";
+	contact.style.width = "auto";
+	myWidth = contact.offsetWidth;
+
+	// fake mouseX in case we start w/ mouse offscreen.
+	// will get updated when mouse moves within window.
+	mouseX = width/2;
+
+	linkage.style.position = "absolute";
+	linkage.style.width = "auto";
+	linkage.style.left = width/2 - linkage.offsetWidth/2;
+	
+   	 for (int i = 0; i < linkage.childNodes.length; ++i) {
+		var a = linkage.childNodes[i];
+		if (a.innerHTML) {
+			debug(a.innerHTML);
+			var txtnode = a.firstChild;
+			var len = txtnode.data.length;
+			
+			for (int j=0; j < len; ++j) {
+				var tmp = txtnode.splitText(1);
+				
+				var spannode = document.createElement("span");
+				spannode.innerHTML = txtnode.data;
+				spannode.setAttribute("name","linkletter");
+				a.replaceChild(spannode,txtnode);
+
+				txtnode = tmp;
+			}
+			
+		}
+	}
+
+
+}
+
+void draw() {
+	resize();
+	background(0,0);
+    //revealCanvas();
+    
+	var letters = document.getElementsByName("linkletter");
+	for (int i=letters.length-1; i > -1; --i) {
+		var L = letters[i];
+		
+		if (L.style.visibility == "hidden") {
+			continue;
+		}
+		var lx = L.offsetLeft + linkage.offsetLeft;
+		var ly = L.offsetTop  + linkage.offsetTop;
+		
+		for (int j=0; j < blips.size(); ++j) {
+			Blip b = blips.get(j);
+			if ( rectIntersect(b.x,b.y,b.d,b.d,lx,ly,L.offsetWidth,L.offsetHeight) ) {
+				b.alive = false;
+				L.style.visibility = "hidden";
+				break;
+			}
+		}
+	}
+
+    float now = millis();
+    since = now - last_time;
+    
+    contact.style.position = "absolute";
+	contact.style.width = "auto";
+	
+    // the contact link goes under the links and hugs the bottom of the window.
+    float tmp1 = float(linkage.offsetTop) + float(linkage.offsetHeight);
+    float tmp2 = height - contact.offsetHeight - 10;
+    contact.style.top = max(tmp1,tmp2);
+    
+	// the contact link is centered at mouseX.    
+    contact.style.left = clamp(float(mouseX-(myWidth/2)), 0, width-myWidth);
+    
+
+	if (since > 500) {	
+		// mind the type casting!! linkage.style.left is a string
+	
+		// [300,1000] [.05,.25]
+		//    700         .2
+		float mag_speed = max(0.01,(height/900.0 * -0.2 + 0.25));
+		float vspeed = dir_speed * mag_speed;
+	    float maxy = width-linkage.offsetWidth;
+	    float miny = 0;
+	    
+		float cur = float(linkage.style.left);
+		float nxt = vspeed*since + cur;
+		
+		if (nxt > miny && nxt < maxy)
+			linkage.style.left = nxt;
+		else
+			dir_speed = -1.0 * dir_speed;
+				
+		last_time = now;
+	}
+
+			
+	for (int i = 0; i < blips.size(); ++i) {
+		Blip b = (Blip)blips.get(i);
+		b.y += b.v;
+		b.draw();
+		
+		if (b.y < 0 - b.d || b.y > height) {
+			b.alive = false;
+		}
+		
+		
+		
+		if (!b.alive) { 			// cull dead blips.
+			blips.remove(i);
+			
+			if (i+1 == blips.size()) // was that the last one?
+				break;
+				
+			--i;
+			
+		}
+	}
+	
+    //debug();	
+    
+}
