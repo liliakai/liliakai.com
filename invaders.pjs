@@ -105,7 +105,6 @@ float since = 0;
 void setup() {
 	resize();
 	background(255);
-	frameRate(30);
 
 	contact.style.position = "absolute";
 	contact.style.width = "auto";
@@ -183,7 +182,7 @@ void draw() {
     contact.style.left = clamp(float(mouseX-(myWidth/2)), 0, width-myWidth);
     
 
-	if (since > 500) {	
+	if (since > 50) {	
 		// mind the type casting!! linkage.style.left is a string
 	
 		// [300,1000] [.05,.25]
