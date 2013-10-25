@@ -8,6 +8,8 @@
         </head>
         <style>
                 body { padding: 3em; }
+                a { text-decoration: none }
+                a:hover { text-decoration: underline; }
 
                 aside {
                         float: right;
@@ -16,7 +18,7 @@
                         white-space: nowrap;
                 }
 
-                aside p {
+                aside a {
                         background-color: #fafafa;
                         margin: .5em;
                         padding: .5em 2em;
@@ -26,41 +28,42 @@
                  }
 
                 aside a, aside a:visited { color: #ccc; }
-                aside a:hover p { text-decoration: underline; }
+                section a { color: #000; }
                 h1 { margin-top: 0;}
 
-		section a {
-			color: #000;
-		}
-
         </style>
-        <style media="screen and (max-width: 500px)">
+        <style media="screen and (max-width: 40em)">
                 aside {
                         float: none;
                         margin-left: 0;
                 }
-                aside p { margin-left:0;}
+                aside a { margin-left:0;}
 
         </style>
         <body>
                 <aside>
-                        <a href='http://github.com/liliakai'><p>Github</p></a>
-                        <a href='http://www.linkedin.com/profile/view?id=59825447'><p>LinkedIn</p></a>
+                        <a href='http://github.com/liliakai'>Github</a>
+                        <a href='http://www.linkedin.com/profile/view?id=59825447'>LinkedIn</a>
                 </aside>
-                <h1>Lilia Kai Markham</h1>
-                <p>Software developer with experience in Ruby, Rails, HTML, HAML, CSS, SASS, MYSQL, Python, C++, C, Arduino, Java, and Android</p>
 
-		<section>
-                <h2>Education</h2>
-                
-                <h3>Harvey Mudd College</h3>
-                <p>Class of 2008</p>
-                <p>Bachelor of Science in Computer Science.</p>
-                <p>Coursework included CS clinic, software development, game development, graphics, artificial intelligence, robotics, algorithms, logic, computability, programming languages, programming practicum, abstract algebra, discrete mathematics, digital and film photography, digital art, and game studies.</p>
-                <p>Scholarships & Awards: Dean’s List Spring 2007, Dean’s List Spring 2006, National Merit Scholar 2004, Robert C. Byrd Honors Scholar 2004</p>
-		</section>
+                <header>
+                        <h1>Lilia Kai Markham</h1>
+                        <p>Software developer with experience in Ruby, Rails,
+                           HTML, HAML, CSS, SASS, MYSQL, Python, C++, C,
+                           Arduino, Java, and Android</p>
+                </header>
 
-		<section>
+                <section>
+                        <h2>Education</h2>
+                        
+                        <h3>Harvey Mudd College</h3>
+                        <p>Class of 2008</p>
+                        <p>Bachelor of Science in Computer Science.</p>
+                        <p>Coursework included CS clinic, software development, game development, graphics, artificial intelligence, robotics, algorithms, logic, computability, programming languages, programming practicum, abstract algebra, discrete mathematics, digital and film photography, digital art, and game studies.</p>
+                        <p>Scholarships & Awards: Dean’s List Spring 2007, Dean’s List Spring 2006, National Merit Scholar 2004, Robert C. Byrd Honors Scholar 2004</p>
+                </section>
+
+                <section>
                 <h2>Experience</h2>
                 <h3>Causes</h3>
                 <p>September 2011 - March 2013</p>
@@ -96,7 +99,7 @@
                 <h3>Sykes Enterprises, Incorporated IT Internship</h3>
                 <p>Summer 2003 – Fall 2003</p>
                 <p>Assisted IT staff supporting Sykes Corporate Headquarters. Duties included imaging and testing laptops, software documentation, and hardware and software inventory. This was the first time the company had ever hired an intern who was still attending high school.</p>
-		</section>
+                </section>
 
                 <h2>More information and references available upon request.</h2>
         </body>
