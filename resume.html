@@ -6,40 +6,40 @@
                 <link rel="stylesheet" type="text/css" href="stylesheet.css" />
                 <title>Lilia's Resume</title>
         </head>
+
         <style>
                 body { padding: 3em; }
                 a { text-decoration: none }
                 a:hover { text-decoration: underline; }
 
                 aside {
-                        float: right;
-                        margin: 0 0 .5em .5em;
-                        font-size: 0.8em;
+                        margin: 0 0 1em 0;
                         white-space: nowrap;
                 }
 
                 aside a {
                         display: inline-block;
-                        margin: .5em;
+                        margin: .5em .5em 1em 0;
                         padding: .5em 2em;
-                        border: 1px #ddd dashed;
+                        border: 1px #ccc dashed;
                         background-color: #fafafa;
                         text-align: center;
                  }
 
                 aside a, aside a:visited { color: #ccc; }
                 section a { color: #000; }
-                h1 { margin-top: 0;}
+                h1 { margin-top: 0.25em;}
 
         </style>
-        <style media="screen and (max-width: 40em)">
+
+        <style media="only screen and (min-width: 500px)">
                 aside {
-                        float: none;
-                        margin-left: 0;
+                        float: right;
+                        margin-left: 1.5em;
                 }
-                aside a { margin-left:0;}
-
+                aside a { display: block; }
         </style>
+
         <body>
                 <aside>
                         <a href='http://github.com/liliakai'>Github</a>
